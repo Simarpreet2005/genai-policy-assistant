@@ -1,60 +1,67 @@
-# **GenAI Policy Compliance Assistant**
+# GenAI Policy Assistant
 
-An enterprise-grade multi-agent AI compliance platform designed to automate policy interpretation, compliance validation, and decision summarization using Retrieval-Augmented Generation (RAG) and orchestrated AI workflows.
+An AI-powered multi-agent policy compliance assistant built using FastAPI, LangGraph, ChromaDB, Groq LLMs, and React.
 
-The platform enables organizations to query internal policy documents, evaluate compliance scenarios, retrieve supporting evidence, and generate structured AI-assisted decisions with citations and risk assessments.
+The platform allows users to query university placement policies using natural language and receive structured compliance decisions, semantic policy retrieval, risk analysis, and citation-supported responses through a modern enterprise AI dashboard.
 
-Built with a modern React frontend and FastAPI backend, the system demonstrates production-oriented GenAI architecture patterns including:
-- multi-agent orchestration
-- retrieval pipelines
-- validation workflows
-- structured AI outputs
-- cloud-ready deployment infrastructure
+The system demonstrates production-oriented Generative AI engineering concepts including:
 
----
-
-# **Overview**
-
-Organizations frequently struggle with repetitive compliance-related queries and manual policy verification workflows.
-
-Traditional chatbots lack:
-- reliable retrieval mechanisms
-- explainability
-- structured validation
-- traceable decision-making
-
-This platform addresses those limitations through a coordinated AI workflow where specialized agents collaborate to:
-- retrieve policy evidence
-- validate compliance conditions
-- assess risk
-- generate structured responses
-
-The result is a system that behaves more like an intelligent compliance operations platform rather than a generic chatbot.
+* Retrieval-Augmented Generation (RAG)
+* semantic vector search
+* multi-agent orchestration
+* policy-aware reasoning
+* structured AI workflows
+* cloud deployment infrastructure
 
 ---
 
-# **Key Capabilities**
+# Overview
 
-- Multi-Agent AI Workflow
-- Retrieval-Augmented Generation (RAG)
-- Policy-Aware Decision Making
-- Structured Risk Assessment
-- Citation-Based Responses
-- Agent Workflow Visualization
-- Compliance Validation Pipeline
-- FastAPI Backend Services
-- Enterprise React Dashboard
-- Dockerized Deployment Architecture
-- Cloud Deployment Ready
+University placement and internship policies are often lengthy, difficult to navigate, and manually interpreted by students and coordinators.
+
+This project solves that problem by building an intelligent AI assistant capable of:
+
+* retrieving relevant placement policy clauses
+* evaluating compliance scenarios
+* performing risk analysis
+* generating structured reasoning-based responses
+* displaying explainable AI workflow stages
+
+The platform combines a modern React frontend with a FastAPI + LangGraph backend deployed on Google Cloud Run.
 
 ---
 
-# **System Architecture**
+# Key Features
+
+* Multi-Agent AI Workflow
+* Retrieval-Augmented Generation (RAG)
+* ChromaDB Semantic Vector Search
+* Policy-Based Compliance Evaluation
+* Risk Classification System
+* Citation-Supported Responses
+* Real-Time Workflow Visualization
+* FastAPI REST Backend
+* Enterprise React Frontend
+* Dockerized Cloud Deployment
+* Google Cloud Run Integration
+* Vercel Frontend Deployment
+
+---
+
+# System Architecture
 
 ```txt
 User Query
     ↓
+Frontend Dashboard (React)
+    ↓
+FastAPI Backend
+    ↓
+LangGraph Multi-Agent Workflow
+    ↓
 Retrieval Agent
+    ↓
+ChromaDB Vector Search
     ↓
 Compliance Evaluation Agent
     ↓
@@ -67,85 +74,72 @@ Structured AI Response
 
 ---
 
-# **Multi-Agent Workflow**
+# Multi-Agent Workflow
 
-## **1. Retrieval Agent**
+## 1. Retrieval Agent
 
-Responsible for semantic retrieval of policy documents and supporting clauses.
+Responsible for semantic retrieval of placement policy clauses.
 
-### **Responsibilities**
-- Query vector retrieval system
-- Retrieve relevant policy chunks
-- Rank contextual matches
-- Return supporting evidence
+### Responsibilities
 
----
-
-## **2. Compliance Evaluation Agent**
-
-Analyzes retrieved policy context and determines policy compliance.
-
-### **Responsibilities**
-- Interpret policy rules
-- Validate user requests
-- Detect violations
-- Generate compliance outcomes
+* generate query embeddings
+* perform vector similarity search
+* retrieve relevant policy chunks
+* return supporting evidence
 
 ---
 
-## **3. Risk Analysis Agent**
+## 2. Compliance Evaluation Agent
 
-Performs contextual risk assessment based on retrieved policy evidence.
+Analyzes retrieved policy context and determines compliance status.
 
-### **Responsibilities**
-- Identify high-risk scenarios
-- Assign risk severity
-- Flag policy conflicts
-- Generate compliance warnings
+### Responsibilities
 
----
-
-## **4. Summary Generation Agent**
-
-Generates structured human-readable responses with supporting citations.
-
-### **Responsibilities**
-- Generate final response
-- Attach citations
-- Include recommendations
-- Format structured output
+* interpret university placement rules
+* validate student scenarios
+* evaluate policy violations
+* determine compliance outcomes
 
 ---
 
-# **Orchestration Layer**
+## 3. Risk Analysis Agent
 
-The system uses an orchestrated multi-agent pipeline where each agent performs a specialized task and passes structured outputs to subsequent stages.
+Performs contextual risk analysis based on retrieved policy evidence.
 
-The orchestration layer manages:
-- agent execution flow
-- inter-agent communication
-- workflow sequencing
-- response validation
-- failure handling
+### Responsibilities
 
-### **Planned Orchestration Frameworks**
-- LangGraph
-- CrewAI
+* classify compliance severity
+* identify risky policy actions
+* detect violations
+* generate confidence indicators
 
 ---
 
-# **Retrieval-Augmented Generation (RAG)**
+## 4. Summary Generation Agent
 
-The platform uses retrieval-based workflows to improve factual grounding and reduce hallucinations.
+Generates structured natural-language responses with citations.
 
-## **Retrieval Pipeline**
+### Responsibilities
+
+* generate final AI response
+* attach retrieved evidence
+* include reasoning
+* structure readable output
+
+---
+
+# Retrieval-Augmented Generation (RAG)
+
+The platform uses a semantic retrieval pipeline to improve factual grounding and reduce hallucinations.
+
+## Retrieval Pipeline
 
 ```txt
 User Query
     ↓
-Query Embedding
+Sentence Embedding
     ↓
-Vector Search
+ChromaDB Vector Search
     ↓
 Policy Chunk Retrieval
     ↓
@@ -154,77 +148,57 @@ Context Ranking
 Agent Processing
 ```
 
-### **Retrieval Stack**
-- ChromaDB
-- FAISS
-- Semantic embeddings
-- Policy chunking pipeline
-- Citation extraction workflow
+### Retrieval Stack
+
+* ChromaDB
+* SentenceTransformers
+* all-MiniLM-L6-v2 embeddings
+* semantic chunk retrieval
+* citation extraction workflow
 
 ---
 
-# **Validation Workflow**
+# Tech Stack
 
-The system includes structured validation and review stages to improve reliability and explainability.
+## Frontend
 
-### **Validation Steps**
-- Retrieved policy chunks are validated before generation
-- Compliance outputs are checked against retrieved evidence
-- Risk scoring is evaluated independently
-- Final responses include traceable citations
-- Structured outputs reduce hallucination risk
-
----
-
-# **Tech Stack**
-
-## **Frontend**
-- React
-- Vite
-- Tailwind CSS
-- React Router
-- Framer Motion
-- Lucide React
+* React
+* Vite
+* Tailwind CSS
+* Framer Motion
+* Lucide React
 
 ---
 
-## **Backend**
-- FastAPI
-- Python
-- Uvicorn
+## Backend
+
+* FastAPI
+* Python
+* Uvicorn
+* Pydantic
 
 ---
 
-## **AI & Retrieval**
-- Multi-Agent Workflow
-- Retrieval-Augmented Generation (RAG)
-- Semantic Search
-- Policy Chunking
-- Vector Retrieval Pipeline
+## AI & Retrieval
+
+* LangGraph
+* Groq API
+* ChromaDB
+* SentenceTransformers
+* RAG Pipeline
+* Semantic Search
 
 ---
 
-## **Deployment**
-- Docker
-- Google Cloud Run
-- Vercel
+## Deployment
+
+* Docker
+* Google Cloud Run
+* Vercel
 
 ---
 
-# **User Interface**
-
-The frontend is designed as a modern enterprise AI operations dashboard featuring:
-- dark futuristic glassmorphism UI
-- responsive layouts
-- agent workflow visualization
-- citation cards
-- compliance risk indicators
-- retrieved policy chunks
-- structured AI response cards
-
----
-
-# **Project Structure**
+# Project Structure
 
 ```txt
 genai-policy-assistant/
@@ -232,80 +206,75 @@ genai-policy-assistant/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
+│   │   ├── hooks/
 │   │   ├── pages/
 │   │   ├── services/
-│   │   ├── hooks/
-│   │   ├── utils/
-│   │   ├── layouts/
 │   │   └── assets/
 │   │
 │   ├── public/
 │   ├── package.json
 │   └── vite.config.js
 │
-├── backend/
-│   ├── app/
-│   ├── agents/
-│   ├── rag/
-│   ├── routes/
-│   ├── services/
-│   ├── main.py
-│   ├── requirements.txt
-│   └── Dockerfile
+├── agents/
+│   ├── retrieval_agent.py
+│   ├── compliance_agent.py
+│   ├── risk_agent.py
+│   └── summary_agent.py
 │
+├── chroma_db/
+├── data/
+├── main.py
+├── build_vector_db.py
+├── Dockerfile
+├── requirements.txt
 └── README.md
 ```
 
 ---
 
-# **Frontend Setup**
+# Prerequisites
 
-## **Install Dependencies**
+Before running the project, install:
+
+| Tool    | Version |
+| ------- | ------- |
+| Python  | 3.9+    |
+| Node.js | 18+     |
+| npm     | latest  |
+| Git     | latest  |
+
+---
+
+# Backend Setup
+
+## 1. Clone Repository
 
 ```bash
-cd frontend
-npm install
+git clone <your-repository-url>
+cd genai-policy-assistant
 ```
 
 ---
 
-## **Start Development Server**
+## 2. Create Virtual Environment
+
+### Windows
 
 ```bash
-npm run dev
-```
-
-Frontend runs at:
-
-```txt
-http://localhost:5173
-```
-
----
-
-# **Backend Setup**
-
-## **Create Virtual Environment**
-
-### **Windows**
-
-```bash
-cd backend
 python -m venv venv
 venv\Scripts\activate
 ```
 
-### **macOS/Linux**
+### macOS/Linux
 
 ```bash
-cd backend
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 ---
 
-## **Install Dependencies**
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -313,7 +282,17 @@ pip install -r requirements.txt
 
 ---
 
-## **Start Backend Server**
+## 4. Configure Environment Variables
+
+Create a `.env` file:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+```
+
+---
+
+## 5. Run Backend Server
 
 ```bash
 uvicorn main:app --reload
@@ -327,82 +306,120 @@ http://127.0.0.1:8000
 
 ---
 
-# **API Example**
+# Frontend Setup
 
-## **POST `/ai/chat`**
+## Install Dependencies
 
-### **Request**
+```bash
+cd frontend
+npm install
+```
+
+---
+
+## Start Frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs at:
+
+```txt
+http://localhost:5173
+```
+
+---
+
+# API Documentation
+
+FastAPI Swagger UI:
+
+```txt
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# Example API Request
+
+## POST `/chat`
+
+### Request
 
 ```json
 {
-  "message": "Can an employee extend leave beyond 14 consecutive days?"
+  "message": "Can I reject a placement offer?"
 }
 ```
 
 ---
 
-### **Response**
+### Response
 
 ```json
 {
-  "answer": "Employees may extend leave only with prior manager approval.",
-  "risk_level": "Medium",
-  "citations": [
-    "Leave Policy Section 4.2"
-  ],
-  "agents": [
-    "Retrieval Agent completed",
-    "Compliance Evaluation Agent completed",
-    "Risk Analysis Agent completed",
-    "Summary Generation Agent completed"
-  ]
+  "query": "Can I reject a placement offer?",
+  "is_compliant": false,
+  "reasoning": "Student cannot reject placement offer without valid reason.",
+  "final_response": "Structured compliance response generated.",
+  "error": null
 }
 ```
 
 ---
 
-# **Deployment Architecture**
+# Deployment Links
 
-## **Frontend**
-The frontend application is deployed on Vercel.
+## Frontend (Vercel)
 
----
-
-## **Backend**
-The backend services are containerized using Docker and deployed on Google Cloud Run.
+```txt
+https://gen-ai-policy-assistant.vercel.app
+```
 
 ---
 
-# **Future Roadmap**
+## Backend API (Google Cloud Run)
 
-- Real-time streaming responses
-- Human approval workflows
-- Slack / Teams integration
-- Policy upload management
-- Multi-document indexing
-- Role-based authentication
-- Analytics dashboard
-- Audit logging
-- Enterprise observability
+```txt
+https://genai-policy-backend-424955378865.asia-south1.run.app/docs
+```
 
 ---
 
-# **Limitations**
+# Current Capabilities
 
-- Retrieval quality depends on document structure
-- Large policy datasets may increase retrieval latency
-- Compliance outputs depend on policy coverage quality
-
----
-
-# **Contributors**
-
-- Frontend & Product Engineering
-- AI Workflow Engineering
-- Backend & Infrastructure Engineering
+* Real-time policy question answering
+* Semantic policy retrieval
+* Multi-agent reasoning workflow
+* Citation-supported responses
+* Risk classification
+* Cloud-hosted backend API
+* Frontend-backend live integration
 
 ---
 
-# **License**
+# Future Improvements
 
-Licensed under the MIT License.
+* Authentication system
+* Policy upload portal
+* Real-time streaming responses
+* Conversation persistence
+* Admin dashboard
+* Advanced analytics
+* Multi-document indexing
+* Human approval workflows
+
+---
+
+# Contributors
+
+* Frontend & Product Engineering
+* AI Workflow Engineering
+* Backend & Infrastructure Engineering
+
+---
+
+# License
+
+This project is developed for educational and academic purposes as part of an AI Engineering coursework project.
