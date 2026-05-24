@@ -2,30 +2,30 @@
 
 An AI-powered multi-agent policy compliance assistant built using FastAPI, LangGraph, ChromaDB, Groq LLMs, and React.
 
-The platform allows users to query university placement policies using natural language and receive structured compliance decisions, semantic policy retrieval, risk analysis, and citation-supported responses through a modern enterprise AI dashboard.
+The platform enables students to query university placement and internship policies using natural language and receive structured compliance decisions, semantic policy retrieval, citation-supported reasoning, and professional AI-generated responses.
 
 The system demonstrates production-oriented Generative AI engineering concepts including:
 
 * Retrieval-Augmented Generation (RAG)
 * semantic vector search
 * multi-agent orchestration
-* policy-aware reasoning
 * structured AI workflows
 * cloud deployment infrastructure
+* real-time frontend-backend integration
 
 ---
 
 # Overview
 
-University placement and internship policies are often lengthy, difficult to navigate, and manually interpreted by students and coordinators.
+University placement and internship policies are often lengthy, difficult to navigate, and manually interpreted by students and placement coordinators.
 
 This project solves that problem by building an intelligent AI assistant capable of:
 
 * retrieving relevant placement policy clauses
-* evaluating compliance scenarios
-* performing risk analysis
-* generating structured reasoning-based responses
-* displaying explainable AI workflow stages
+* evaluating policy compliance scenarios
+* performing semantic policy search
+* generating structured AI-based responses
+* displaying explainable AI workflow execution
 
 The platform combines a modern React frontend with a FastAPI + LangGraph backend deployed on Google Cloud Run.
 
@@ -37,7 +37,6 @@ The platform combines a modern React frontend with a FastAPI + LangGraph backend
 * Retrieval-Augmented Generation (RAG)
 * ChromaDB Semantic Vector Search
 * Policy-Based Compliance Evaluation
-* Risk Classification System
 * Citation-Supported Responses
 * Real-Time Workflow Visualization
 * FastAPI REST Backend
@@ -57,17 +56,13 @@ Frontend Dashboard (React)
     ↓
 FastAPI Backend
     ↓
-LangGraph Multi-Agent Workflow
+LangGraph Workflow
     ↓
-Retrieval Agent
+Searcher Agent
     ↓
-ChromaDB Vector Search
+Judge Agent
     ↓
-Compliance Evaluation Agent
-    ↓
-Risk Analysis Agent
-    ↓
-Summary Generation Agent
+Writer Agent
     ↓
 Structured AI Response
 ```
@@ -76,54 +71,53 @@ Structured AI Response
 
 # Multi-Agent Workflow
 
-## 1. Retrieval Agent
+## 1. Searcher Agent
 
-Responsible for semantic retrieval of placement policy clauses.
+Responsible for semantic retrieval of university placement policy clauses.
 
 ### Responsibilities
 
-* generate query embeddings
-* perform vector similarity search
+* generate semantic embeddings
+* perform ChromaDB vector search
 * retrieve relevant policy chunks
-* return supporting evidence
+* provide contextual evidence
+
+### Technologies Used
+
+* ChromaDB
+* SentenceTransformers
+* all-MiniLM-L6-v2 embeddings
 
 ---
 
-## 2. Compliance Evaluation Agent
+## 2. Judge Agent
 
-Analyzes retrieved policy context and determines compliance status.
+Responsible for compliance evaluation and policy validation.
 
 ### Responsibilities
 
 * interpret university placement rules
-* validate student scenarios
-* evaluate policy violations
-* determine compliance outcomes
+* validate user scenarios
+* determine compliance status
+* generate structured verdicts
+
+### Technologies Used
+
+* Groq API
+* llama-3.1-8b-instant
+* Pydantic schemas
 
 ---
 
-## 3. Risk Analysis Agent
+## 3. Writer Agent
 
-Performs contextual risk analysis based on retrieved policy evidence.
-
-### Responsibilities
-
-* classify compliance severity
-* identify risky policy actions
-* detect violations
-* generate confidence indicators
-
----
-
-## 4. Summary Generation Agent
-
-Generates structured natural-language responses with citations.
+Responsible for generating professional structured responses.
 
 ### Responsibilities
 
 * generate final AI response
-* attach retrieved evidence
-* include reasoning
+* summarize policy reasoning
+* include citations and explanations
 * structure readable output
 
 ---
@@ -143,18 +137,18 @@ ChromaDB Vector Search
     ↓
 Policy Chunk Retrieval
     ↓
-Context Ranking
+Judge Evaluation
     ↓
-Agent Processing
+Writer Response Generation
 ```
 
 ### Retrieval Stack
 
 * ChromaDB
 * SentenceTransformers
-* all-MiniLM-L6-v2 embeddings
-* semantic chunk retrieval
-* citation extraction workflow
+* semantic vector embeddings
+* PDF chunking pipeline
+* policy citation retrieval
 
 ---
 
@@ -175,13 +169,13 @@ Agent Processing
 * FastAPI
 * Python
 * Uvicorn
+* LangGraph
 * Pydantic
 
 ---
 
 ## AI & Retrieval
 
-* LangGraph
 * Groq API
 * ChromaDB
 * SentenceTransformers
@@ -216,15 +210,16 @@ genai-policy-assistant/
 │   └── vite.config.js
 │
 ├── agents/
-│   ├── retrieval_agent.py
-│   ├── compliance_agent.py
-│   ├── risk_agent.py
-│   └── summary_agent.py
+│   ├── searcher.py
+│   ├── judge.py
+│   ├── writer.py
+│   └── vector_search.py
 │
 ├── chroma_db/
 ├── data/
-├── main.py
 ├── build_vector_db.py
+├── agent_workflow.py
+├── main.py
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
@@ -292,7 +287,17 @@ GROQ_API_KEY=your_groq_api_key
 
 ---
 
-## 5. Run Backend Server
+## 5. Build Vector Database
+
+```bash
+python build_vector_db.py
+```
+
+This generates the ChromaDB vector index from the university placement policy document.
+
+---
+
+## 6. Run Backend Server
 
 ```bash
 uvicorn main:app --reload
@@ -393,33 +398,53 @@ https://genai-policy-backend-424955378865.asia-south1.run.app/docs
 * Semantic policy retrieval
 * Multi-agent reasoning workflow
 * Citation-supported responses
-* Risk classification
 * Cloud-hosted backend API
 * Frontend-backend live integration
 
 ---
 
-# Future Improvements
+# Contributors
 
-* Authentication system
-* Policy upload portal
-* Real-time streaming responses
-* Conversation persistence
-* Admin dashboard
-* Advanced analytics
-* Multi-document indexing
-* Human approval workflows
+## Backend & AI Workflow Engineering
+
+* LangGraph orchestration
+* FastAPI backend
+* Groq integration
+* compliance evaluation workflow
 
 ---
 
-# Contributors
+## Vector Database & Cloud Infrastructure
 
-* Frontend & Product Engineering
-* AI Workflow Engineering
-* Backend & Infrastructure Engineering
+* ChromaDB integration
+* semantic retrieval pipeline
+* vector embeddings
+* Docker deployment
+* Google Cloud Run deployment
+
+---
+
+## Frontend & Product Engineering
+
+* React enterprise dashboard
+* workflow visualization
+* responsive UI
+* frontend-backend integration
+* Vercel deployment
+
+---
+
+# Future Improvements
+
+* Conversation persistence
+* Authentication system
+* Policy upload management
+* Real-time streaming responses
+* Advanced analytics dashboard
+* Human approval workflows
 
 ---
 
 # License
 
-This project is developed for educational and academic purposes as part of an AI Engineering coursework project.
+This project was developed for educational and academic purposes as part of an AI Engineering coursework project.
