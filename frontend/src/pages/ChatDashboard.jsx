@@ -3,11 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageSquare, Clock, Plus, Send, ShieldCheck, Search,
   CheckCircle, ChevronLeft, ChevronRight, Sun, Moon, User,
-  Menu, Activity, X, Mic, Volume2, VolumeX, Sparkles
+  Menu, X, Mic, Volume2, VolumeX, Sparkles
 } from 'lucide-react';
 import { mockChatRequest } from '../services/mockApi';
 import { useTheme } from '../hooks/useTheme';
-import { WorkflowCard } from '../components/WorkflowCard';
 import { PlacementVerdictCard } from '../components/PlacementVerdictCard';
 
 const ChatDashboard = () => {
@@ -36,7 +35,6 @@ const ChatDashboard = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [workflowOpen, setWorkflowOpen] = useState(false);
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     try {
@@ -301,10 +299,6 @@ const ChatDashboard = () => {
       ]
     });
 
-    if (window.innerWidth < 1280) {
-      setWorkflowOpen(true);
-    }
-
     // Set up AbortController to support cancellation
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -374,10 +368,6 @@ const ChatDashboard = () => {
     });
 
     abortControllerRef.current = null;
-
-    if(window.innerWidth < 1280){
-        setWorkflowOpen(false);
-    }
 }
   };
 
@@ -439,10 +429,10 @@ const ChatDashboard = () => {
       <div className="w-full max-w-[1600px] h-full flex px-2 sm:px-4 md:px-6 lg:px-8 py-2 md:py-6 lg:py-8 gap-3 sm:gap-5 lg:gap-6 relative">
         
         {/* MOBILE OVERLAY */}
-        {(sidebarOpen || workflowOpen) && (
+        {sidebarOpen && (
           <div 
             className="fixed inset-0 bg-black/60 z-40 xl:hidden backdrop-blur-sm"
-            onClick={() => { setSidebarOpen(false); setWorkflowOpen(false); }}
+            onClick={() => setSidebarOpen(false)}
           />
         )}
 
@@ -628,13 +618,6 @@ const ChatDashboard = () => {
                   <Moon size={14} />
                 </button>
               </div>
-              <button 
-                className="xl:hidden p-2 text-primary hover:text-textMain bg-primary/10 rounded-xl border border-primary/20 animate-pulse animate-duration-1000" 
-                onClick={() => setWorkflowOpen(true)}
-                title="View Agent Workflow"
-              >
-                <Activity size={20} />
-              </button>
             </div>
           </header>
 
@@ -780,34 +763,6 @@ const ChatDashboard = () => {
                   </motion.div>
                 ))}
 
-                {/* Shimmer skeleton for active typing state */}
-                {workflow.status === 'running' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="flex gap-3 md:gap-4 max-w-[85%]"
-                  >
-                    <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 mt-1 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shadow-lg border border-white/10">
-                      <Sparkles size={16} className="fill-white md:w-[18px] md:h-[18px]" />
-                    </div>
-
-                    <div className="glass-card w-full p-4 md:p-6 flex flex-col gap-4 text-textMain border-panelBorder bg-glass-msg shadow-[0_4px_20px_rgba(0,0,0,0.15)] rounded-[20px] rounded-tl-[4px]">
-                      <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary typing-dot shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary typing-dot shadow-[0_0_8px_rgba(59,130,246,0.8)]" style={{ animationDelay: '0.2s' }}></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary typing-dot shadow-[0_0_8px_rgba(59,130,246,0.8)]" style={{ animationDelay: '0.4s' }}></div>
-                        <span className="text-[12px] text-textMuted font-medium ml-2 uppercase tracking-widest animate-pulse">Running Agents...</span>
-                      </div>
-                      
-                      <div className="flex flex-col gap-2.5 mt-2">
-                        <div className="h-4 skeleton w-[90%] rounded-md"></div>
-                        <div className="h-4 skeleton w-[80%] rounded-md"></div>
-                        <div className="h-4 skeleton w-[50%] rounded-md"></div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
                 
                 <div ref={messagesEndRef} className="h-4" />
               </AnimatePresence>
@@ -874,83 +829,6 @@ const ChatDashboard = () => {
           </div>
         </main>
 
-        {/* RIGHT PANEL - AGENT WORKFLOW */}
-        <aside className={`
-          fixed xl:static top-0 right-0 h-full w-full sm:w-[360px] xl:w-[320px] flex-shrink-0 glass-panel flex flex-col p-5 md:p-6 xl:p-6 shadow-2xl xl:shadow-lg z-50 transition-transform duration-300
-          ${workflowOpen ? 'translate-x-0' : 'translate-x-full xl:translate-x-0'}
-          bg-mobile-panel xl:bg-transparent rounded-none xl:rounded-[20px]
-        `}>
-          <div className="flex items-center justify-between mb-6 px-1 mt-2 shrink-0">
-            <h3 className="font-bold text-textMain text-[16px]">Agent Workflow</h3>
-            <div className="flex items-center gap-3">
-              <span className={`px-3 py-1.5 rounded-full text-[12px] font-semibold border shadow-sm ${
-                workflow.status === 'completed' ? 'bg-green-500/10 text-green-400 border-green-500/20 shadow-green-500/10' :
-                workflow.status === 'running' ? 'bg-primary/10 text-primary border-primary/20 shadow-primary/10 animate-pulse' :
-                'bg-white/5 text-gray-400 border-panelBorder'
-              }`}>
-                {workflow.status === 'completed' ? 'Completed' : workflow.status === 'running' ? `Step ${workflow.currentStep + 1}/3` : 'Ready'}
-              </span>
-              <button className="xl:hidden p-2 -mr-2 text-gray-400 hover:text-textMain bg-white/5 rounded-full" onClick={() => setWorkflowOpen(false)}>
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto custom-scrollbar relative px-1">
-            {/* Vertical Line */}
-            <div className="absolute left-[26px] top-4 bottom-10 w-[2px] bg-white/5 dark:bg-white/[0.03] z-0"></div>
-
-            <div className="flex flex-col gap-5 relative z-10">
-              {workflow.steps.map((step) => {
-                let icon = <Search size={16} />;
-                let color = "bg-primary";
-                let glow = "shadow-[0_0_15px_rgba(59,130,246,0.2)]";
-                let glowClass = "from-primary";
-
-                if (step.id === 1) {
-                  icon = <Activity size={16} />;
-                  color = "bg-orange-500";
-                  glow = "shadow-[0_0_15px_rgba(249,115,22,0.2)]";
-                  glowClass = "from-orange-500";
-                } else if (step.id === 2) {
-                  icon = <MessageSquare size={16} />;
-                  color = "bg-pink-500";
-                  glow = "shadow-[0_0_15px_rgba(244,114,182,0.2)]";
-                  glowClass = "from-pink-500";
-                }
-
-                return (
-                  <WorkflowCard
-                    key={step.id}
-                    icon={icon}
-                    title={step.title}
-                    status={step.status}
-                    color={color}
-                    glow={glow}
-                    glowClass={glowClass}
-                    message={step.message}
-                  />
-                );
-              })}
-            </div>
-
-            {/* Workflow Complete Indicator */}
-            {workflow.status === 'completed' && (
-              <motion.div
-                initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }}
-                className="mt-8 p-4 rounded-[16px] glass-card border-green-500/30 bg-green-500/5 flex gap-4 items-center shadow-[0_4px_20px_rgba(34,197,94,0.1)]"
-              >
-                <div className="w-9 h-9 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 shrink-0 border border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.2)]">
-                  <CheckCircle size={18} />
-                </div>
-                <div>
-                  <p className="text-[13px] font-bold text-textMain mb-0.5">Workflow Complete</p>
-                  <p className="text-[11px] text-green-400 font-medium">All agents executed successfully</p>
-                </div>
-              </motion.div>
-            )}
-          </div>
-        </aside>
       </div>
     </div>
   );
