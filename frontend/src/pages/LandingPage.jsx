@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Shield, Search, FileText, CheckCircle, ArrowRight, Zap } from 'lucide-react';
+import { Shield, Search, FileText, CheckCircle, ArrowRight, Zap, Scale, PenTool } from 'lucide-react';
 
 const LandingPage = () => {
   return (
@@ -76,18 +76,30 @@ const LandingPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FeatureCard 
             icon={<Search className="text-secondary" size={24} />}
-            title="Retrieval Agent"
-            desc="Semantically searches LPU placement policy database for relevant rules."
+            title="Searcher Agent"
+            features={[
+              "Semantic retrieval from vector store",
+              "Vector search across policy documents",
+              "Policy chunk extraction & ranking"
+            ]}
           />
           <FeatureCard 
-            icon={<CheckCircle className="text-accent2" size={24} />}
-            title="Risk Analysis"
-            desc="Flags policy exceptions, offer rejections, and placement conflicts."
+            icon={<Scale className="text-accent2" size={24} />}
+            title="Judge Agent"
+            features={[
+              "Compliance evaluation against rules",
+              "Structured reasoning with Groq LLM",
+              "Verdict generation with confidence"
+            ]}
           />
           <FeatureCard 
-            icon={<FileText className="text-accent1" size={24} />}
-            title="Summary Agent"
-            desc="Generates concise, citable placement guidelines evaluations."
+            icon={<PenTool className="text-accent1" size={24} />}
+            title="Writer Agent"
+            features={[
+              "Professional response generation",
+              "Citation formatting & attribution",
+              "Structured, readable outputs"
+            ]}
           />
         </div>
       </section>
@@ -100,13 +112,20 @@ const LandingPage = () => {
   );
 };
 
-const FeatureCard = ({ icon, title, desc }) => (
+const FeatureCard = ({ icon, title, features }) => (
   <div className="glass-card p-6 flex flex-col gap-4">
     <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center shadow-sm">
       {icon}
     </div>
     <h3 className="font-semibold text-lg">{title}</h3>
-    <p className="text-textMuted text-sm leading-relaxed">{desc}</p>
+    <ul className="text-textMuted text-sm leading-relaxed space-y-2">
+      {features.map((feature, index) => (
+        <li key={index} className="flex items-start gap-2">
+          <span className="text-primary mt-1.5">•</span>
+          <span>{feature}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 );
 

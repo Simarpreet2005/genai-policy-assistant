@@ -3,11 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   MessageSquare, Clock, Plus, Send, ShieldCheck, Search,
   CheckCircle, ChevronLeft, ChevronRight, Sun, Moon, User,
-  Menu, X, Mic, Volume2, VolumeX, Sparkles
+  Menu, X, Mic, Volume2, VolumeX, Sparkles, Search as SearchIcon,
+  Scale, PenTool, AlertTriangle
 } from 'lucide-react';
 import { mockChatRequest } from '../services/mockApi';
 import { useTheme } from '../hooks/useTheme';
 import { PlacementVerdictCard } from '../components/PlacementVerdictCard';
+import { WorkflowCard } from '../components/WorkflowCard';
 
 const ChatDashboard = () => {
   const { theme, toggleTheme } = useTheme();
@@ -50,9 +52,9 @@ const ChatDashboard = () => {
     status: 'idle', // 'idle' | 'running' | 'completed'
     currentStep: -1,
     steps: [
-      { id: 0, title: "Retrieval Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
-      { id: 1, title: "Risk Analysis Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
-      { id: 2, title: "Summary Agent", status: "pending", message: "Generating final response with citable guidelines." }
+      { id: 0, title: "Searcher Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
+      { id: 1, title: "Judge Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
+      { id: 2, title: "Writer Agent", status: "pending", message: "Generating final response with citable guidelines." }
     ]
   });
 
@@ -90,9 +92,9 @@ const ChatDashboard = () => {
       status: 'idle',
       currentStep: -1,
       steps: [
-        { id: 0, title: "Retrieval Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
-        { id: 1, title: "Risk Analysis Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
-        { id: 2, title: "Summary Agent", status: "pending", message: "Generating final response with citable guidelines." }
+        { id: 0, title: "Searcher Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
+        { id: 1, title: "Judge Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
+        { id: 2, title: "Writer Agent", status: "pending", message: "Generating final response with citable guidelines." }
       ]
     });
 
@@ -191,9 +193,9 @@ const ChatDashboard = () => {
       status: 'idle',
       currentStep: -1,
       steps: [
-        { id: 0, title: "Retrieval Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
-        { id: 1, title: "Risk Analysis Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
-        { id: 2, title: "Summary Agent", status: "pending", message: "Generating final response with citable guidelines." }
+        { id: 0, title: "Searcher Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
+        { id: 1, title: "Judge Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
+        { id: 2, title: "Writer Agent", status: "pending", message: "Generating final response with citable guidelines." }
       ]
     });
     setInput('');
@@ -293,9 +295,9 @@ const ChatDashboard = () => {
       status: 'running',
       currentStep: 0,
       steps: [
-        { id: 0, title: "Retrieval Agent", status: "active", message: "Connecting to policy vector index..." },
-        { id: 1, title: "Risk Analysis Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
-        { id: 2, title: "Summary Agent", status: "pending", message: "Generating final response with citable guidelines." }
+        { id: 0, title: "Searcher Agent", status: "active", message: "Connecting to policy vector index..." },
+        { id: 1, title: "Judge Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
+        { id: 2, title: "Writer Agent", status: "pending", message: "Generating final response with citable guidelines." }
       ]
     });
 
@@ -361,9 +363,9 @@ const ChatDashboard = () => {
       status: 'idle',
       currentStep: -1,
       steps: [
-        { id: 0, title: "Retrieval Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
-        { id: 1, title: "Risk Analysis Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
-        { id: 2, title: "Summary Agent", status: "pending", message: "Generating final response with citable guidelines." }
+        { id: 0, title: "Searcher Agent", status: "pending", message: "Searching LPU placement policies database and retrieving relevant rules." },
+        { id: 1, title: "Judge Agent", status: "pending", message: "Assessing policy exceptions, offer rejections, or backlog conflicts." },
+        { id: 2, title: "Writer Agent", status: "pending", message: "Generating final response with citable guidelines." }
       ]
     });
 
@@ -828,6 +830,77 @@ const ChatDashboard = () => {
             </div>
           </div>
         </main>
+
+        {/* RIGHT SIDEBAR - Agent Workflow */}
+        <aside className="hidden xl:flex flex-col gap-4 w-[320px] shrink-0">
+          <div className="glass-panel p-5 rounded-[20px] shadow-lg flex flex-col gap-4 h-full">
+            <div className="flex items-center gap-3 pb-3 border-b border-panelBorder">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                <Sparkles size={18} className="fill-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-textMain text-[14px]">Agent Workflow</h3>
+                <p className="text-[10px] text-textMuted font-medium uppercase tracking-wider mt-0.5">Multi-Agent Pipeline</p>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-4 py-2">
+              {workflow.steps.map((step, index) => {
+                const agentIcons = {
+                  0: <SearchIcon size={14} />,
+                  1: <Scale size={14} />,
+                  2: <PenTool size={14} />
+                };
+                const agentColors = {
+                  0: 'bg-secondary',
+                  1: 'bg-accent2',
+                  2: 'bg-accent1'
+                };
+                const agentGlows = {
+                  0: 'shadow-[0_0_12px_rgba(168,85,247,0.4)]',
+                  1: 'shadow-[0_0_12px_rgba(236,72,153,0.4)]',
+                  2: 'shadow-[0_0_12px_rgba(59,130,246,0.4)]'
+                };
+                const agentGlowClasses = {
+                  0: 'from-secondary via-purple-500/50 to-transparent',
+                  1: 'from-accent2 via-pink-500/50 to-transparent',
+                  2: 'from-accent1 via-blue-500/50 to-transparent'
+                };
+                
+                return (
+                  <WorkflowCard
+                    key={step.id}
+                    icon={agentIcons[step.id]}
+                    title={step.title}
+                    status={step.status}
+                    color={agentColors[step.id]}
+                    glow={agentGlows[step.id]}
+                    glowClass={agentGlowClasses[step.id]}
+                    message={step.message}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="pt-3 border-t border-panelBorder">
+              <div className="text-[11px] text-textMuted text-center leading-relaxed">
+                {workflow.status === 'running' ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                    Processing request...
+                  </span>
+                ) : workflow.status === 'completed' ? (
+                  <span className="flex items-center justify-center gap-2 text-green-400">
+                    <CheckCircle size={12} />
+                    Workflow completed
+                  </span>
+                ) : (
+                  <span>Ready to process queries</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </aside>
 
       </div>
     </div>
